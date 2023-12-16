@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Run Python Code</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <form id="pythonForm">
+        <textarea id="codeInput" name="code" rows="10" cols="50"></textarea><br>
+        <input type="submit" value="Run Python Code">
+    </form>
+    <div id="result"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#pythonForm').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/run_python',
+                    contentType: 'application/json',
+                    data: JSON.stringify({code: $('#codeInput').val()}),
+                    success: function(response) {
+                        $('#result').html(response.output);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
